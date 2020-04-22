@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mybatis2.mapper.UserMapper">
+    <select id="findUserWithOrders" resultMap="UserWithOrdersResult">
+        select u.*,o.id as orders_id,o.number from tb_user as u,tb_orders as o
+        where u.id=o.user_id and u.id=${id}
+    </select>
+    <resultMap id="UserWithOrdersResult" type="user">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="address" column="address"/>
+        <!-- fetchType="eager" 为立即加载 fetchType="lazy"为延迟加载该属性为默认属性-->
+        <collection property="ordersList"  ofType="Orders">
+            <id property="id" column="orders_id"/>
+            <result property="number" column="number"/>
+        </collection>
+    </resultMap>
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mybatis2.mapper.OrdersMapper">
+    <!--多对多嵌套查询：通过执行另外一条SQL映射语句来返回预期的特殊类型-->
+    <select id="findOrdersWithProduct" resultMap="OrdersWithProductResult">
+        select * from tb_orders where id=#{id}
+    </select>
+    <resultMap id="OrdersWithProductResult" type="orders2">
+        <id property="id" column="id"/>
+        <result property="number" column="number"/>
+        <collection property="productList" ofType="product" column="id"
+                    select="com.mybatis2.mapper.ProductMapper.findProductById"/>
+    </resultMap>
+    <select id="findOrdersWithProduct2" resultMap="OrdersWithProductResult2">
+        select o.*,p.id as pid,p.name,p.price
+        from tb_orders as o,tb_product as p,tb_ordersitem as oi
+        where oi.orders_id=o.id and oi.product_id=p.id and o.id=#{id};
+    </select>
+    <resultMap id="OrdersWithProductResult2" type="orders2">
+        <id property="id" column="id"/>
+        <result property="number" column="number"/>
+        <collection property="productList" ofType="product">
+            <id property="id" column="pid"/>
+            <result property="name" column="name"/>
+            <result property="price" column="price"/>
+        </collection>
+    </resultMap>
+</mapper>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--配置日志记录-->
+    <settings>
+<!--        &lt;!&ndash;打开延迟加载的开关 &ndash;&gt;-->
+<!--        <setting name="lazyLoadingEnabled" value="true"/>-->
+<!--        &lt;!&ndash;将积极加载改为延迟加载，即按需加载 &ndash;&gt;-->
+<!--        <setting name="aggressiveLazyLoading" value="false"/>-->
+        <!-- 设置日志系统为LOG4J -->
+        <setting name="logImpl" value="LOG4J"/>
+    </settings>
+    <!--使用自动扫描包来定义别名-->
+    <typeAliases>
+        <package name="com.mybatis2.pojo"/>
+    </typeAliases>
+    <!--配置环境-->
+    <environments default="mysql">
+        <environment id="mysql">
+            <!--配置事务管理器-->
+            <transactionManager type="JDBC"/>
+            <!-- 配置数据库连接池 -->
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+<!--                &amp;useAffectedRows=true-->
+                <property name="url" value="jdbc:mysql://localhost:3306/test?useSSL=false&amp;serverTimezone=UTC"/>
+                <property name="username" value="gou"/>
+                <property name="password" value="088159"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <!-- 配置mapper的位置 -->
+    <mappers>
+
+<!--        &lt;!&ndash;通过类路径引入&ndash;&gt;-->
+<!--        <mapper resource="com/mybatis2/mapper/CardMapper.xml"/>-->
+<!--        <mapper resource="com/mybatis2/mapper/PersonMapper.xml"/>-->
+<!--        &lt;!&ndash;通过接口类引入&ndash;&gt;-->
+<!--        <mapper class="com.mybatis2.mapper.UserMapper"/>-->
+        <!--通过包名引入-->
+        <package name="com.mybatis2.mapper"/>
+    </mappers>
+
+</configuration>
